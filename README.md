@@ -1,18 +1,33 @@
 # Restaurant Management System
 
-A full-stack restaurant management application built with React, Vite, Tailwind CSS (frontend) and Express, Prisma, MySQL (backend).
+A full-stack restaurant management application with a modern React frontend and Express backend, designed for managing customers, menu items, categories, and orders efficiently.
 
-## Features
-- Manage customers, menu items, categories, and orders
-- Relational database with normalized schema
-- Modern UI with advanced table and form components
-- Real-time updates using SWR
-- TypeScript throughout for safety
+## ✨ Features
 
-## Tech Stack
-- **Frontend:** React, Vite, Tailwind CSS, SWR
-- **Backend:** Express, Prisma ORM, MySQL
-- **Database:** MySQL
+- **Customer Management** - Add, view, and manage customer information with contact details
+- **Menu Items** - Create and organize menu items with pricing and categories
+- **Categories** - Organize menu items into logical categories
+- **Orders** - Create orders, track items and quantities, view order history
+- **Real-time Updates** - Instant UI updates using SWR data fetching
+- **Type Safety** - Full TypeScript coverage across frontend and backend
+- **Modern UI** - Beautiful, responsive interface built with Tailwind CSS and Radix UI
+
+## 🛠 Tech Stack
+
+### Frontend
+- **React 18** with TypeScript
+- **Vite** - Fast build tool and dev server
+- **Tailwind CSS** - Utility-first styling
+- **SWR** - Data fetching and caching
+- **Radix UI** - Accessible component primitives
+
+### Backend
+- **Express.js** - Node.js web framework
+- **Prisma ORM** - Type-safe database client
+- **TypeScript** - End-to-end type safety
+
+### Database
+- **MySQL** - Relational database with normalized schema
 
 ## Folder Structure
 ```
@@ -37,76 +52,192 @@ restrauntmanagement/
 └── README.md             # Project documentation
 ```
 
-## Setup Instructions
+## 🚀 Quick Start
 
-### 1. Database
-- Create a MySQL database
-- Run the SQL in `db.sql` to create tables
-- Update `backend/.env` with your database connection string:
-  ```env
-  DATABASE_URL="mysql://user:password@localhost:3306/your_db"
+### Prerequisites
+- **Node.js** 18+ and npm
+- **MySQL** 5.7+ or 8.0+
+
+### 1. Database Setup
+
+Create a MySQL database:
+```sql
+CREATE DATABASE restaurantmanagement;
+```
+
+Run the schema creation script:
+```bash
+mysql -u your_username -p restaurantmanagement < db.sql
+```
+
+### 2. Backend Setup
+
+```bash
+# Navigate to backend directory
+cd backend
+
+# Install dependencies
+npm install
+
+# Copy environment template and configure
+cp .env.example .env
+# Edit .env and set your DATABASE_URL:
+# DATABASE_URL="mysql://USER:PASSWORD@127.0.0.1:3306/restaurantmanagement"
+
+# Generate Prisma client
+npx prisma generate
+
+# Start development server
+npm run dev
+```
+
+Backend will run at `http://localhost:4000`
+
+### 3. Frontend Setup
+
+```bash
+# Navigate to frontend directory (from root)
+cd Frontend
+
+# Install dependencies
+npm install
+
+# Environment is already configured in .env
+# Verify VITE_API_BASE_URL=http://localhost:4000/api
+
+# Start development server
+npm run dev
+```
+
+Frontend will run at `http://localhost:5173`
+
+### 4. Access the Application
+
+Open your browser and navigate to `http://localhost:5173`
+
+## 📡 API Endpoints
+
+Base URL: `http://localhost:4000/api`
+
+### Customers
+- `GET /customers` - List all customers with contacts
+- `POST /customers` - Create a new customer
+  ```json
+  { "name": "John Doe", "contactNo": "1234567890", "email": "john@example.com" }
   ```
 
-### 2. Backend
-- Install dependencies:
-  ```sh
-  cd backend
-  npm install
+### Categories
+- `GET /categories` - List all categories with menu items
+- `POST /categories` - Create a new category
+  ```json
+  { "categoryName": "Appetizers" }
   ```
-- Generate Prisma client:
-  ```sh
-  npx prisma generate
+
+### Menu Items
+- `GET /menu-items` - List all menu items with categories
+- `POST /menu-items` - Create a new menu item
+  ```json
+  { "name": "Caesar Salad", "price": 12.99, "categoryId": 1 }
   ```
-- Start the server:
-  ```sh
-  npm run dev
+
+### Orders
+- `GET /orders` - List all orders with customer and items (newest first)
+- `POST /orders` - Create a new order
+  ```json
+  { 
+    "customerId": 1, 
+    "orderDate": "2025-10-17", 
+    "items": [{ "itemId": 1, "quantity": 2 }] 
+  }
   ```
-- API runs at `http://localhost:4000/api`
 
-### 3. Frontend
-- Install dependencies:
-  ```sh
-  cd Frontend
-  npm install
-  ```
-- Set API base URL in `Frontend/.env`:
-  ```env
-  VITE_API_BASE_URL=http://localhost:4000/api
-  ```
-- Start the frontend:
-  ```sh
-  npm run dev
-  ```
-- App runs at `http://localhost:5173`
+## 📁 Project Structure
 
-## API Endpoints
-- `GET /customers` - List customers
-- `POST /customers` - Add customer
-- `GET /categories` - List categories
-- `POST /categories` - Add category
-- `GET /menu-items` - List menu items
-- `POST /menu-items` - Add menu item
-- `GET /orders` - List orders (with customer and items)
-- `POST /orders` - Create order
+```
+restrauntmanagement/
+├── .gitignore              # Git ignore rules
+├── README.md               # This file
+├── db.sql                  # MySQL database schema
+├── backend/                # Express + Prisma backend
+│   ├── .env.example        # Environment template
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── prisma/
+│   │   └── schema.prisma   # Prisma schema with MySQL mapping
+│   └── src/
+│       ├── index.ts        # Express server entry point
+│       ├── prismaClient.ts # Prisma client instance
+│       └── routes/         # API route handlers
+│           ├── categories.ts
+│           ├── customers.ts
+│           ├── menuItems.ts
+│           └── orders.ts
+└── Frontend/               # React + Vite frontend
+    ├── .env                # Environment variables (not tracked)
+    ├── .env.example        # Environment template
+    ├── package.json
+    ├── tsconfig.json
+    ├── vite.config.ts
+    ├── index.html
+    └── src/
+        ├── App.tsx         # Main application component
+        ├── main.tsx        # React entry point
+        ├── index.css       # Global styles
+        ├── components/     # React components
+        │   ├── categories-manager.tsx
+        │   ├── customers-manager.tsx
+        │   ├── menu-manager.tsx
+        │   ├── orders-manager.tsx
+        │   └── ui/         # Reusable UI components
+        ├── lib/
+        │   ├── api.ts      # API client wrapper
+        │   ├── types.ts    # TypeScript type definitions
+        │   └── utils.ts    # Utility functions
+        └── hooks/          # Custom React hooks
+```
 
-## Prisma Schema Highlights
-- Models use camelCase for client, mapped to PascalCase DB columns
-- All relations and indexes match the SQL schema
+## 🔧 Development Notes
 
-## Frontend Highlights
-- Modern UI with Tailwind
-- Advanced table, form, and card components
-- TypeScript types for all entities
-- SWR for real-time data fetching
+### Prisma Schema
+- Models use **camelCase** field names in the Prisma client
+- Database columns use **PascalCase** via `@map()` directives
+- All foreign keys and indexes match the MySQL schema
+- Decimal fields (prices) are returned as strings in JSON
 
-## Troubleshooting
-- If you see `undefined` in tables, check backend route field names and Prisma schema mapping
-- If you get Prisma errors, ensure you ran `npx prisma generate` after schema changes
-- For decimal fields, handle as string in frontend (e.g., `Number(item.price)`)
+### Code Quality
+- Full TypeScript coverage with strict mode
+- Error handling with try-catch blocks
+- Console errors logged for debugging
+- SWR provides automatic revalidation and caching
 
-## License
-MIT
+## 🐛 Troubleshooting
 
-## Authors
-- Sarthak Routray
-- Kirtan Kumar Sanghi
+### Database Connection Issues
+- Verify MySQL is running: `mysql -u root -p`
+- Check DATABASE_URL format in `backend/.env`
+- Ensure database exists: `SHOW DATABASES;`
+
+### Prisma Errors
+- Run `npx prisma generate` after schema changes
+- Run `npx prisma db push` to sync schema with database (dev only)
+- Check Prisma client is imported correctly
+
+### Frontend Not Fetching Data
+- Verify backend is running on port 4000
+- Check `VITE_API_BASE_URL` in `Frontend/.env`
+- Open browser console for network errors
+- Verify CORS is not blocking requests
+
+### Build Errors
+- Clear `node_modules` and reinstall: `rm -rf node_modules && npm install`
+- Check Node.js version: `node --version` (should be 18+)
+
+
+## 👥 Authors
+
+- **Sarthak Routray** - [GitHub](https://github.com/sarthakroutray)
+- **Kirtan Kumar Sanghi**
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/sarthakroutray/restaurant-management/issues).
