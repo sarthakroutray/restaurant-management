@@ -1,0 +1,51 @@
+# Node
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Env files
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist/
+build/
+.public/
+
+# Vite
+/node_modules/.vite
+
+# Prisma client (generated)
+backend/node_modules/.prisma/
+backend/node_modules/@prisma/client/.prisma/
+
+# IDEs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# OS
+.DS_Store
+Thumbs.db
+
+# TypeScript
+*.tsbuildinfo
+
+# Frontend lock files (if using pnpm locally)
+.pnpm-debug.log
+
+# Misc
+coverage/
+
+# Allow the README and other project files
+!README.md

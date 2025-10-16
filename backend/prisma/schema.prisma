@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  categoryId   Int        @id @default(autoincrement()) @map("CategoryID")
+  categoryName String     @map("CategoryName") @db.VarChar(50)
+  menuItems    MenuItem[]
+
+  @@map("Categories")
+}
+
+model CustomerContact {
+  contactId  Int      @id @default(autoincrement()) @map("ContactID")
+  customerId Int      @map("CustomerID")
+  contactNo  String?  @map("ContactNo") @db.VarChar(15)
+  email      String?  @map("Email") @db.VarChar(100)
+  customer   Customer @relation(fields: [customerId], references: [customerId])
+
+  @@index([customerId], map: "CustomerID")
+  @@map("CustomerContacts")
+}
+
+model Customer {
+  customerId Int               @id @default(autoincrement()) @map("CustomerID")
+  name       String            @map("Name") @db.VarChar(100)
+  contacts   CustomerContact[]
+  orders     Order[]
+
+  @@map("Customers")
+}
+
+model MenuItem {
+  itemId     Int       @id @default(autoincrement()) @map("ItemID")
+  name       String    @map("Name") @db.VarChar(100)
+  categoryId Int?      @map("CategoryID")
+  price      Decimal   @map("Price") @db.Decimal(10, 2)
+  category   Category? @relation(fields: [categoryId], references: [categoryId])
+  orderItems OrderItem[]
+
+  @@index([categoryId], map: "CategoryID")
+  @@map("MenuItems")
+}
+
+model OrderItem {
+  orderItemId Int      @id @default(autoincrement()) @map("OrderItemID")
+  orderId     Int      @map("OrderID")
+  itemId      Int      @map("ItemID")
+  quantity    Int      @map("Quantity")
+  order       Order    @relation(fields: [orderId], references: [orderId])
+  menuItem    MenuItem @relation(fields: [itemId], references: [itemId])
+
+  @@index([itemId], map: "ItemID")
+  @@index([orderId], map: "OrderID")
+  @@map("OrderItems")
+}
+
+model Order {
+  orderId    Int         @id @default(autoincrement()) @map("OrderID")
+  customerId Int         @map("CustomerID")
+  orderDate  DateTime    @map("OrderDate") @db.Date
+  orderItems OrderItem[]
+  customer   Customer    @relation(fields: [customerId], references: [customerId])
+
+  @@index([customerId], map: "CustomerID")
+  @@map("Orders")
+}
