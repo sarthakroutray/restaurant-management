@@ -29,4 +29,21 @@ router.post("/", async (req, res) => {
   res.status(201).json(created);
 });
 
+// DELETE /api/orders/:id
+router.delete("/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    // Delete order items first, then the order
+    await prisma.orderItem.deleteMany({
+      where: { orderId: id }
+    });
+    await prisma.order.delete({
+      where: { orderId: id }
+    });
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete order" });
+  }
+});
+
 export default router;

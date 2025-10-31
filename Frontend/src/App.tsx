@@ -4,14 +4,16 @@ import { CustomersManager } from "@/components/customers-manager"
 import { CategoriesManager } from "@/components/categories-manager"
 import { MenuManager } from "@/components/menu-manager"
 import { OrdersManager } from "@/components/orders-manager"
+import { AnalyticsManager } from "@/components/analytics-manager"
 
-type TabKey = "orders" | "menu" | "categories" | "customers"
+type TabKey = "orders" | "menu" | "categories" | "customers" | "analytics"
 
 const tabs: { key: TabKey; label: string }[] = [
   { key: "orders", label: "Orders" },
   { key: "menu", label: "Menu Items" },
   { key: "categories", label: "Categories" },
   { key: "customers", label: "Customers" },
+  { key: "analytics", label: "Analytics" },
 ]
 
 function App() {
@@ -23,7 +25,7 @@ function App() {
         {/* Gorgeous Header with Gradient */}
         <header className="mb-10 rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 p-10 shadow-2xl shadow-blue-500/30">
           <h1 className="text-5xl font-black tracking-tight text-white md:text-6xl drop-shadow-lg">
-            🍽️ Restaurant Management
+            Restaurant Management
           </h1>
           <p className="mt-4 text-xl text-blue-100 font-semibold">
             Streamline your restaurant operations with modern design
@@ -55,12 +57,13 @@ function App() {
           {active === "menu" ? <MenuManager /> : null}
           {active === "categories" ? <CategoriesManager /> : null}
           {active === "customers" ? <CustomersManager /> : null}
+          {active === "analytics" ? <AnalyticsManager /> : null}
         </div>
 
         {/* Stylish Footer */}
         <footer className="mt-20 rounded-2xl bg-gradient-to-r from-slate-100 to-blue-100 border-2 border-slate-200 p-6 text-center shadow-lg">
           <p className="text-sm font-semibold text-slate-700">
-            <span className="text-blue-600">🌐 API Status:</span>{" "}
+            <span className="text-blue-600">API Status:</span>{" "}
             <span className="font-mono bg-white px-3 py-1 rounded-lg shadow-sm">
               {import.meta.env.VITE_API_BASE_URL || "Using relative paths"}
             </span>

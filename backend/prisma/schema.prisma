@@ -20,7 +20,7 @@ model CustomerContact {
   customerId Int      @map("CustomerID")
   contactNo  String?  @map("ContactNo") @db.VarChar(15)
   email      String?  @map("Email") @db.VarChar(100)
-  customer   Customer @relation(fields: [customerId], references: [customerId])
+  customer   Customer @relation(fields: [customerId], references: [customerId], onDelete: NoAction, onUpdate: NoAction, map: "CustomerContacts_ibfk_1")
 
   @@index([customerId], map: "CustomerID")
   @@map("CustomerContacts")
@@ -36,11 +36,11 @@ model Customer {
 }
 
 model MenuItem {
-  itemId     Int       @id @default(autoincrement()) @map("ItemID")
-  name       String    @map("Name") @db.VarChar(100)
-  categoryId Int?      @map("CategoryID")
-  price      Decimal   @map("Price") @db.Decimal(10, 2)
-  category   Category? @relation(fields: [categoryId], references: [categoryId])
+  itemId     Int         @id @default(autoincrement()) @map("ItemID")
+  name       String      @map("Name") @db.VarChar(100)
+  categoryId Int?        @map("CategoryID")
+  price      Decimal     @map("Price") @db.Decimal(10, 2)
+  category   Category?   @relation(fields: [categoryId], references: [categoryId], onDelete: NoAction, onUpdate: NoAction, map: "MenuItems_ibfk_1")
   orderItems OrderItem[]
 
   @@index([categoryId], map: "CategoryID")
@@ -52,8 +52,8 @@ model OrderItem {
   orderId     Int      @map("OrderID")
   itemId      Int      @map("ItemID")
   quantity    Int      @map("Quantity")
-  order       Order    @relation(fields: [orderId], references: [orderId])
-  menuItem    MenuItem @relation(fields: [itemId], references: [itemId])
+  order       Order    @relation(fields: [orderId], references: [orderId], onDelete: NoAction, onUpdate: NoAction, map: "OrderItems_ibfk_1")
+  menuItem    MenuItem @relation(fields: [itemId], references: [itemId], onDelete: NoAction, onUpdate: NoAction, map: "OrderItems_ibfk_2")
 
   @@index([itemId], map: "ItemID")
   @@index([orderId], map: "OrderID")
@@ -65,7 +65,7 @@ model Order {
   customerId Int         @map("CustomerID")
   orderDate  DateTime    @map("OrderDate") @db.Date
   orderItems OrderItem[]
-  customer   Customer    @relation(fields: [customerId], references: [customerId])
+  customer   Customer    @relation(fields: [customerId], references: [customerId], onDelete: NoAction, onUpdate: NoAction, map: "Orders_ibfk_1")
 
   @@index([customerId], map: "CustomerID")
   @@map("Orders")

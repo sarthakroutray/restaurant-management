@@ -5,6 +5,7 @@ import customersRouter from "./routes/customers";
 import categoriesRouter from "./routes/categories";
 import menuItemsRouter from "./routes/menuItems";
 import ordersRouter from "./routes/orders";
+import analyticsRouter from "./routes/analytics";
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use("/api/customers", customersRouter);
 app.use("/api/categories", categoriesRouter);
 app.use("/api/menu-items", menuItemsRouter);
 app.use("/api/orders", ordersRouter);
+app.use("/api/analytics", analyticsRouter);
 
 app.get("/api/health", (req, res) => res.json({ ok: true }));
 

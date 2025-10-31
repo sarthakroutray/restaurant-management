@@ -16,4 +16,17 @@ router.post("/", async (req, res) => {
   res.status(201).json(item);
 });
 
+// DELETE /api/menu-items/:id
+router.delete("/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    await prisma.menuItem.delete({
+      where: { itemId: id }
+    });
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete menu item" });
+  }
+});
+
 export default router;
